@@ -8,7 +8,7 @@ Chess bot written in Haskell.
 
 -- A longer description of the package.
 -- description:
-Chess bot with associated GUI.
+Chess bot written in Haskell with GUI from SCID.
 
 -- A URL where users can report bugs.
 -- bug-reports:
