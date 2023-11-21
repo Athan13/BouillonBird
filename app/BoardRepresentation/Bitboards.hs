@@ -31,8 +31,11 @@ module BoardRepresentation.Bitboards where
     }
 
     data PieceColour = White | Black
+        deriving (Show, Eq)
     data PieceType = Pawn | Knight | Bishop | Rook | Queen | King
+        deriving (Eq)
     data Piece = Piece PieceColour PieceType | Empty
+        deriving (Eq)
 
     newtype BoardArray = BoardArray [[Piece]]
 
@@ -379,16 +382,16 @@ module BoardRepresentation.Bitboards where
             Knight -> "0x42"
             Bishop -> "0x24"
             Rook   -> "0x81"
-            Queen  -> "0x8"
-            King   -> "0x10"
+            Queen  -> "0x10"
+            King   -> "0x8"
     startingBitboard (Piece Black pt) = read hex::Word64 where  -- black pieces
         hex = case pt of
             Pawn   -> "0xff000000000000"
             Knight -> "0x4200000000000000"
             Bishop -> "0x2400000000000000"
             Rook   -> "0x8100000000000000"
-            Queen  -> "0x800000000000000"
-            King   -> "0x1000000000000000"
+            Queen   -> "0x1000000000000000"
+            King  -> "0x800000000000000"
     startingBitboard Empty = read "0x0"::Word64
 
     startingBoard :: Board
