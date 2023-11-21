@@ -3,12 +3,12 @@ module BoardRepresentation.Bitboards where
     Boards, bitboards, pieces, starting bitboards, utilities for updating/displaying the board.
     -}
 
-    import Data.Int
+    import Data.Word
     import Data.Bits
     import Data.Char    
 
     -- Set up datatypes
-    type Bitboard = Int64
+    type Bitboard = Word64
 
     data Board = Board {
         whitePawns :: Bitboard,
@@ -373,7 +373,7 @@ module BoardRepresentation.Bitboards where
 
     -- Set up starting positions
     startingBitboard :: Piece -> Bitboard
-    startingBitboard (Piece White pt) = read hex::Int64 where  -- white pieces
+    startingBitboard (Piece White pt) = read hex::Word64 where  -- white pieces
         hex = case pt of
             Pawn   -> "0xff00"
             Knight -> "0x42"
@@ -381,7 +381,7 @@ module BoardRepresentation.Bitboards where
             Rook   -> "0x81"
             Queen  -> "0x8"
             King   -> "0x10"
-    startingBitboard (Piece Black pt) = read hex::Int64 where  -- black pieces
+    startingBitboard (Piece Black pt) = read hex::Word64 where  -- black pieces
         hex = case pt of
             Pawn   -> "0xff000000000000"
             Knight -> "0x4200000000000000"
@@ -389,7 +389,7 @@ module BoardRepresentation.Bitboards where
             Rook   -> "0x8100000000000000"
             Queen  -> "0x800000000000000"
             King   -> "0x1000000000000000"
-    startingBitboard Empty = read "0x0"::Int64
+    startingBitboard Empty = read "0x0"::Word64
 
     startingBoard :: Board
     startingBoard = Board {
