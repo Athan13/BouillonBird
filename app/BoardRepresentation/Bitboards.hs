@@ -1,10 +1,11 @@
--- Bitboards plus some admin for displaying the board
 module BoardRepresentation.Bitboards where
+    {-
+    Boards, bitboards, pieces, starting bitboards, utilities for updating/displaying the board.
+    -}
 
     import Data.Int
     import Data.Bits
-    import Data.Char
-
+    import Data.Char    
 
     -- Set up datatypes
     type Bitboard = Int64
@@ -38,6 +39,8 @@ module BoardRepresentation.Bitboards where
     pieceList :: [PieceType]
     pieceList = [Pawn, Knight, Bishop, Rook, Queen, King]
 
+    
+    -- Board/bitboard utilities
     getBoardBitboards :: Board -> [(Bitboard, Piece)]
     getBoardBitboards Board {
         whitePawns = wp,
@@ -57,13 +60,303 @@ module BoardRepresentation.Bitboards where
 
         whiteKing = wk,
         blackKing = bk
-    } = [(wp, (Piece White Pawn)), (bp, (Piece Black Pawn)),
-         (wn, (Piece White Knight)), (bn, (Piece Black Knight)),
-         (wb, (Piece White Bishop)), (bb, (Piece Black Bishop)),
-         (wr, (Piece White Rook)), (br, (Piece Black Rook)),
-         (wq, (Piece White Queen)), (bq, (Piece Black Queen)),
-         (wk, (Piece White King)), (bk, (Piece Black King))]
+    } = [(wp, Piece White Pawn), (bp, Piece Black Pawn),
+         (wn, Piece White Knight), (bn, Piece Black Knight),
+         (wb, Piece White Bishop), (bb, Piece Black Bishop),
+         (wr, Piece White Rook), (br, Piece Black Rook),
+         (wq, Piece White Queen), (bq, Piece Black Queen),
+         (wk, Piece White King), (bk, Piece Black King)]
 
+    getPieceBitboard :: Board -> Piece -> (Bitboard, Piece)
+    getPieceBitboard Board {
+        whitePawns = wp,
+        blackPawns = bp,
+
+        whiteKnights = wn,
+        blackKnights = bn,
+
+        whiteBishops = wb,
+        blackBishops = bb,
+
+        whiteRooks = wr,
+        blackRooks = br,
+
+        whiteQueen = wq,
+        blackQueen = bq,
+
+        whiteKing = wk,
+        blackKing = bk
+    } piece = case piece of
+        Piece White Pawn -> (wp, piece)
+        Piece Black Pawn -> (bp, piece)
+
+        Piece White Knight -> (wn, piece)
+        Piece Black Knight -> (bn, piece)
+
+        Piece White Bishop -> (wb, piece)
+        Piece Black Bishop -> (bb, piece)
+
+        Piece White Rook -> (wr, piece)
+        Piece Black Rook -> (br, piece)
+
+        Piece White Queen -> (wq, piece)
+        Piece Black Queen -> (bq, piece)
+
+        Piece White King -> (wk, piece)
+        Piece Black King -> (bk, piece)
+
+    updateBoard :: Board -> (Bitboard, Piece) -> Board
+    updateBoard Board {
+        whitePawns = wp,
+        blackPawns = bp,
+
+        whiteKnights = wn,
+        blackKnights = bn,
+
+        whiteBishops = wb,
+        blackBishops = bb,
+
+        whiteRooks = wr,
+        blackRooks = br,
+
+        whiteQueen = wq,
+        blackQueen = bq,
+
+        whiteKing = wk,
+        blackKing = bk
+    } (newBB, piece) =
+        case piece of
+            Piece White Pawn -> Board {
+                whitePawns = newBB,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece Black Pawn -> Board {
+                whitePawns = wp,
+                blackPawns = newBB,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece White Knight -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = newBB,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece Black Knight -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = newBB,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece White Bishop -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = newBB,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece Black Bishop -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = newBB,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece White Rook -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = newBB,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece Black Rook -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = newBB,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece White Queen -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = newBB,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece Black Queen -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = newBB,
+
+                whiteKing = wk,
+                blackKing = bk
+            }
+            Piece White King -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = newBB,
+                blackKing = bk
+            }
+            Piece Black King -> Board {
+                whitePawns = wp,
+                blackPawns = bp,
+
+                whiteKnights = wn,
+                blackKnights = bn,
+
+                whiteBishops = wb,
+                blackBishops = bb,
+
+                whiteRooks = wr,
+                blackRooks = br,
+
+                whiteQueen = wq,
+                blackQueen = bq,
+
+                whiteKing = wk,
+                blackKing = newBB
+            }
+
+
+    -- Show instances for pieces, boards
     instance Show PieceType where
         show Pawn   = "p"
         show Knight = "n"
@@ -76,11 +369,6 @@ module BoardRepresentation.Bitboards where
         show (Piece White pt) = toUpper <$> show pt
         show (Piece Black pt) = show pt
         show Empty = "_"
-
-    instance Show BoardArray where
-        show (BoardArray (ps:[])) = show ps
-        show (BoardArray (ps:rest)) = show ps ++ "\n" ++ show (BoardArray rest)
-        show _ = ""
 
 
     -- Set up starting positions
@@ -154,3 +442,11 @@ module BoardRepresentation.Bitboards where
 
     getBoardArray :: Board -> BoardArray
     getBoardArray = mconcat . map (uncurry getPieceArray) . getBoardBitboards
+
+    instance Show BoardArray where
+        show (BoardArray [ps]) = show ps
+        show (BoardArray (ps:rest)) = show ps ++ "\n" ++ show (BoardArray rest)
+        show _ = ""
+
+    instance Show Board where
+        show = show . getBoardArray
