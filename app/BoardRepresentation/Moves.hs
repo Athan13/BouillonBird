@@ -11,9 +11,11 @@ module BoardRepresentation.Moves where
     import Data.Maybe (fromJust)  -- mostly used to create squares/plies through UCI in GHCi
     
     data Square = Square {file :: Int, rank :: Int}  -- files are columns (a-h), ranks are rows (1-8) represented as 0-7, 0-7
+        deriving (Eq)
     data Ply = Ply Square Square
                 | PromotePly Square Square PieceType
                 | NullMove
+        deriving (Eq)
 
     instance Show Square where
         show Square {file = file, rank = rank} = fileLetter : show (rank + 1)
