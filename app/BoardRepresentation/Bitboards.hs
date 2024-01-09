@@ -453,3 +453,6 @@ module BoardRepresentation.Bitboards where
 
     instance Show Board where
         show = show . getBoardArray
+
+    showBB :: Bitboard -> BoardArray
+    showBB bb = getPieceArray bb (Piece Black Pawn)
